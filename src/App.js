@@ -7,6 +7,20 @@ function App() {
   //TODO: STEP 2 - Establish your applictaion's state with some useState hooks.  You'll need one for the home score and another for the away score.
   const [homeScore, setHomeScore] = useState(0);
   const [awayScore, setAwayScore] = useState(0);
+  //handler function. takes in team and score and updates the score of that team
+  const scoreHandler = function (team, score) {
+      ((team === "home") ? setHomeScore(homeScore + score) : setAwayScore(awayScore + score));
+  }
+  const resetHandler = function (team) {
+    if(team === "home" && homeScore > 0){
+      setHomeScore(0)
+    }else if(team === "away" && awayScore > 0){
+      setAwayScore(0)
+    } else if(team === "master"){
+      setHomeScore(0);
+      setAwayScore(0);
+    }
+  }
   return (
     <div className="container">
       <section className="scoreboard">
@@ -29,12 +43,17 @@ function App() {
       <section className="buttons">
         <div className="homeButtons">
           {/* TODO STEP 4 - Now we need to attach our state setter functions to click listeners. */}
-          <button className="homeButtons__touchdown" onClick={() => setHomeScore(homeScore + 7)}>Home Touchdown</button>
-          <button className="homeButtons__fieldGoal" onClick={() => setHomeScore(homeScore + 3)}>Home Field Goal</button>
+          <button className="homeButtons__touchdown" onClick={() => scoreHandler("home", 7)}>Home Touchdown</button>
+          <button className="homeButtons__fieldGoal" onClick={() => scoreHandler("home", 3)}>Home Field Goal</button>
         </div>
         <div className="awayButtons">
-          <button className="awayButtons__touchdown" onClick={() => setAwayScore(awayScore + 7)}>Away Touchdown</button>
-          <button className="awayButtons__fieldGoal" onClick={() => setAwayScore(awayScore + 3)}>Away Field Goal</button>
+          <button className="awayButtons__touchdown" onClick={() => scoreHandler("away", 7)}>Away Touchdown</button>
+          <button className="awayButtons__fieldGoal" onClick={() => scoreHandler("away", 3)}>Away Field Goal</button>
+        </div>
+        <div className="resetButtons">
+          <button className="homeReset" onClick={() => resetHandler("home")}>Home Reset</button>
+          <button className="awayReset" onClick={() => resetHandler("away")}>Away Reset</button>
+          <button className="masterReset" onClick={() => resetHandler("master")}>Master Reset</button>
         </div>
       </section>
     </div>
